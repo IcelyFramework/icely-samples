@@ -1,0 +1,41 @@
+application {
+    config {
+        baseName cargo
+    }
+    entities Cargo, Voyage, HandlingEvent, Location, Customer
+}
+
+entity Cargo {
+}
+entity Voyage {
+    voyageNumber String required unique
+}
+entity HandlingEvent {
+    registrationTime LocalDate required unique
+    completionTime LocalDate required unique
+    handlingType HandlingEventType
+}
+entity Location {
+    unlocode String required unique
+    portCode String required unique
+    name String required unique
+}
+entity Customer {
+    name String required
+}
+
+enum TransportStatus {
+NOT_RECEIVED, INPORT, ON_BOARDCARRIER, CLAIMED, UNKNOWN   
+}
+enum RoutingStatus {
+NOT_ROUTED, ROUTED, MISROUTED 
+}
+enum HandlingEventType {
+UNLOAD, CUSTOMS, CLAIM, LOAD, RECEIVE  
+}
+
+relationship OneToOne {
+    HandlingEvent{voyage} to Voyage,
+    HandlingEvent{location} to Location,
+    HandlingEvent{cargo} to Cargo
+}

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ASCII"?>
+<icely:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icely="http://github.com/icelyframework/static" name="cargo" basePath="E:/Software Development/Programming/Icely Framework/icely-platform/icely-samples/cargo">
+  <hasApplication name="cargo">
+    <hasAggregate name="Cargo" aggregateRoot="Cargo">
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="TrackingID" name="TrackingID">
+        <hasProperty isUnique="true" name="id" type="String"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="Itinerary" name="Itinerary">
+        <hasRelation target="Leg" name="legs" type="//@hasApplication.0/@complextypes.0"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:Entity" typeName="Cargo" name="Cargo" aggregateRoot="true">
+        <hasRelation multiplicity="ONE_TO_ONE" target="RouteSpecification" name="routespecification" type="RouteSpecification"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Itinerary" name="itinerary" type="Itinerary"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Role" name="receiever" type="Role"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Role" name="sender" type="Role"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="TrackingID" name="trackingId" type="TrackingID"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="Role" name="Role">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Customer" name="customer" type="Customer"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Cargo" name="cargo" type="Cargo"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="RouteSpecification" name="RouteSpecification">
+        <hasProperty name="arrivalDeadline" type="Date"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="origin" type="Location"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="destination" type="Location"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="Delivery" name="Delivery">
+        <hasProperty name="misdirected" type="Boolean"/>
+        <hasProperty name="eta" type="Date"/>
+        <hasProperty name="isUnloadedAtDestination" type="Boolean"/>
+        <hasProperty name="calculatedAt" type="Date"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="TransportStatus" name="transportStatus" type="TransportStatus"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="lastKnownLocation" type="Location"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Voyage" name="currentVoyage" type="Voyage"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="HandlingActivity" name="nextExpectedActivity" type="HandlingActivity"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="RoutingStatus" name="routingStatus" type="RoutingStatus"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="HandlingEvent" name="lastEvent" type="HandlingEvent"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="Leg" name="Leg">
+        <hasProperty name="loadTime" type="Date"/>
+        <hasProperty name="unLoadTime" type="Date"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Voyage" name="voyage" type="Voyage"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="loadLocation" type="Location"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="HandlingActivity" name="HandlingActivity">
+        <hasRelation multiplicity="ONE_TO_ONE" target="HandlingEventType" name="handlingEventType" type="HandlingEventType"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="location" type="Location"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Voyage" name="voyage" type="Voyage"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:Enumeration" typeName="TransportStatus" name="TransportStatus">
+        <hasLiteral name="NotReceived"/>
+        <hasLiteral name="InPort" value="1"/>
+        <hasLiteral name="OnboardCarrier" value="2"/>
+        <hasLiteral name="Claimed" value="3"/>
+        <hasLiteral name="Unknown" value="4"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:Enumeration" typeName="RoutingStatus" name="RoutingStatus">
+        <hasLiteral name="NotRouted"/>
+        <hasLiteral name="Routed" value="1"/>
+        <hasLiteral name="Misrouted" value="2"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:CommandEvent" typeName="BookingANewCargoCommand" name="BookingANewCargoCommand">
+        <hasProperty name="originUnlocode" type="String"/>
+        <hasProperty name="destinationUnlocode" type="String"/>
+        <hasProperty name="arrivalDeadline" type="String"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="ACargoBooked" name="ACargoBooked">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Cargo" name="cargo" type="Cargo"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:DTO" typeName="PossibleRoutesForCargoDTO" name="PossibleRoutesForCargoDTO"/>
+      <hasDomainobject xsi:type="icely:DTO" typeName="BookingFormDTO" name="BookingFormDTO">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Cargo" name="cargo" type="Cargo"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:DTO" typeName="ChangeDestinationFormDTO" name="ChangeDestinationFormDTO"/>
+      <hasDomainobject xsi:type="icely:CommandEvent" typeName="ChangeDestinationCommand" name="ChangeDestinationCommand"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoDestinationChanged" name="CargoDestinationChanged"/>
+      <hasDomainobject xsi:type="icely:DTO" typeName="CargoWithHandlingEventsDTO" name="CargoWithHandlingEventsDTO"/>
+      <hasDomainobject xsi:type="icely:CommandEvent" typeName="AssignCargoToRouteCommand" name="AssignCargoToRouteCommand"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoAssignedToRoute" name="CargoAssignedToRoute"/>
+      <hasDomainobject xsi:type="icely:CommandEvent" typeName="UpdateEventOfCargoCommand" name="UpdateEventOfCargoCommand"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoIsClaimedEvent" name="CargoIsClaimedEvent"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="NextExpectedHandlingActivity" name="NextExpectedHandlingActivity"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoTransportStatusRecalculated" name="CargoTransportStatusRecalculated"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoLastKnownUpdated" name="CargoLastKnownUpdated"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoCurrentVoyageUpdated" name="CargoCurrentVoyageUpdated"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="CargoIsUnloadedAtDestination" name="CargoIsUnloadedAtDestination"/>
+      <hasDomainobject xsi:type="icely:DTO" typeName="CargoDetailsDTO" name="CargoDetailsDTO"/>
+      <hasDomainobject xsi:type="icely:DTO" typeName="TrackingIDDTO" name="TrackingIDDTO">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Itinerary" name="itinerary" type="Itinerary"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Cargo" name="cargo" type="Cargo"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="TrackingID" name="trackingId" type="TrackingID"/>
+      </hasDomainobject>
+      <hasResource xsi:type="icely:CollectionResource" name="CargoesResource" simpleName="Cargoes"/>
+    </hasAggregate>
+    <hasAggregate name="Voyage" aggregateRoot="Voyage">
+      <hasDomainobject xsi:type="icely:Entity" typeName="Voyage" name="Voyage" aggregateRoot="true">
+        <hasProperty isUnique="true" name="voyageNumber" type="String"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Schedule" name="schedule" type="Schedule"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="Schedule" name="Schedule">
+        <hasRelation target="CarrierMovement" name="carrierMovements" type="//@hasApplication.0/@complextypes.1"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="CarrierMovement" name="CarrierMovement">
+        <hasProperty isUnique="true" name="departureTime" type="Date"/>
+        <hasProperty isUnique="true" name="arrivalTime" type="Date"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="arrivalLocation" type="Location"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="departureLocation" type="Location"/>
+      </hasDomainobject>
+      <hasResource xsi:type="icely:CollectionResource" name="VoyagesResource" simpleName="Voyages"/>
+    </hasAggregate>
+    <hasAggregate name="Handling" aggregateRoot="HandlingEvent">
+      <hasDomainobject xsi:type="icely:Entity" typeName="HandlingEvent" name="HandlingEvent" aggregateRoot="true">
+        <hasProperty isUnique="true" name="registrationTime" type="Date"/>
+        <hasProperty isUnique="true" name="completionTime" type="Date"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="HandlingEventType" name="handlingType" type="HandlingEventType"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Voyage" name="voyage" type="Voyage"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="location" type="Location"/>
+        <hasRelation multiplicity="ONE_TO_ONE" target="Cargo" name="cargo" type="Cargo"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:ValueObject" typeName="HandlingHistory" name="HandlingHistory">
+        <hasRelation target="HandlingEvent" name="handlingEvents" type="//@hasApplication.0/@complextypes.2"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:Enumeration" typeName="HandlingEventType" name="HandlingEventType">
+        <hasLiteral name="Unload"/>
+        <hasLiteral name="Customs" value="1"/>
+        <hasLiteral name="Claim" value="2"/>
+        <hasLiteral name="Load" value="3"/>
+        <hasLiteral name="Receive" value="4"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:CommandEvent" typeName="RegisterHandlingEventCommand" name="RegisterHandlingEventCommand"/>
+      <hasDomainobject xsi:type="icely:DomainEvent" typeName="HandlingEventRegistered" name="HandlingEventRegistered"/>
+      <hasDomainobject xsi:type="icely:DTO" typeName="ReportFormDTO" name="ReportFormDTO"/>
+      <hasResource xsi:type="icely:CollectionResource" name="HandlingsResource" simpleName="Handlings"/>
+    </hasAggregate>
+    <hasAggregate name="Location" aggregateRoot="Location">
+      <hasDomainobject xsi:type="icely:Entity" typeName="Location" name="Location" aggregateRoot="true">
+        <hasProperty isUnique="true" name="unlocode" type="String"/>
+        <hasProperty isUnique="true" name="portCode" type="String"/>
+        <hasProperty isUnique="true" name="name" type="String"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:DTO" typeName="ShippingLocationsDTO" name="ShippingLocationsDTO">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="location" type="Location"/>
+      </hasDomainobject>
+      <hasDomainobject xsi:type="icely:DTO" typeName="LocationDetailsDTO" name="LocationDetailsDTO">
+        <hasRelation multiplicity="ONE_TO_ONE" target="Location" name="location" type="Location"/>
+      </hasDomainobject>
+      <hasResource xsi:type="icely:CollectionResource" name="LocationsResource" simpleName="Locations"/>
+    </hasAggregate>
+    <hasAggregate name="Customer" aggregateRoot="Customer">
+      <hasDomainobject xsi:type="icely:Entity" typeName="Customer" name="Customer" aggregateRoot="true">
+        <hasProperty isNamingProperty="true" name="name" type="String"/>
+      </hasDomainobject>
+      <hasResource xsi:type="icely:CollectionResource" name="CustomersResource" simpleName="Customers"/>
+    </hasAggregate>
+    <complextypes type="Leg"/>
+    <complextypes type="CarrierMovement"/>
+    <complextypes type="HandlingEvent"/>
+  </hasApplication>
+  <primitiveTypes typeName="String"/>
+  <primitiveTypes typeName="Integer" type="Integer"/>
+  <primitiveTypes typeName="Float" type="Float"/>
+  <primitiveTypes typeName="Boolean" type="Boolean"/>
+  <primitiveTypes typeName="Null" type="null"/>
+  <primitiveTypes typeName="Date" type="Date"/>
+</icely:Project>

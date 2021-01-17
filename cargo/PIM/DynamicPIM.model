@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ASCII"?>
+<icely:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icely="http://github.com/icelyframework/dynamic" name="cargo" basePath="E:/Software Development/Programming/Icely Framework/icely-platform/icely-samples/cargo">
+  <hasApplication name="cargo">
+    <hasAggregate name="Cargo" aggregateRoot="Cargo">
+      <hasProcess name="Cargo">
+        <hasOperation xsi:type="icely:QueryOperation" name="cargoListView"/>
+        <hasOperation xsi:type="icely:QueryOperation" name="requestPossibleRoutesForCargo"/>
+        <hasOperation xsi:type="icely:QueryOperation" name="pickNewDestinationView"/>
+        <hasOperation xsi:type="icely:CommandOperation" name="changeDestination">
+          <publish eventType="CargoDestinationChanged"/>
+        </hasOperation>
+        <hasOperation xsi:type="icely:CommandOperation" name="assignCargoToRoute">
+          <publish eventType="CargoAssignedToRoute"/>
+        </hasOperation>
+        <hasOperation xsi:type="icely:QueryOperation" name="cargoDetailsView"/>
+      </hasProcess>
+      <hasProcess name="Booking">
+        <hasOperation xsi:type="icely:QueryOperation" name="bookingFormView"/>
+        <hasOperation xsi:type="icely:CommandOperation" name="bookingNewCargo">
+          <publish/>
+        </hasOperation>
+      </hasProcess>
+      <hasProcess name="Tracking">
+        <hasOperation xsi:type="icely:QueryOperation" name="trackACargo"/>
+      </hasProcess>
+      <hasProcess name="Handling">
+        <hasOperation xsi:type="icely:CommandOperation" name="updateEventOfCargo">
+          <publish eventType="CargoIsUnloadedAtDestination"/>
+          <policy/>
+        </hasOperation>
+      </hasProcess>
+      <domainobjects xsi:type="icely:ValueObject" typeName="TrackingID" name="TrackingID"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="Itinerary" name="Itinerary"/>
+      <domainobjects xsi:type="icely:Entity" typeName="Cargo" name="Cargo" aggregateRoot="true"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="Role" name="Role"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="RouteSpecification" name="RouteSpecification"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="Delivery" name="Delivery"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="Leg" name="Leg"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="HandlingActivity" name="HandlingActivity"/>
+      <domainobjects xsi:type="icely:Enumeration" typeName="TransportStatus" name="TransportStatus"/>
+      <domainobjects xsi:type="icely:Enumeration" typeName="RoutingStatus" name="RoutingStatus"/>
+      <domainobjects xsi:type="icely:CommandEvent" typeName="BookingANewCargoCommand" name="BookingANewCargoCommand"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="ACargoBooked" name="ACargoBooked"/>
+      <domainobjects xsi:type="icely:DTO" typeName="PossibleRoutesForCargoDTO" name="PossibleRoutesForCargoDTO"/>
+      <domainobjects xsi:type="icely:DTO" typeName="BookingFormDTO" name="BookingFormDTO"/>
+      <domainobjects xsi:type="icely:DTO" typeName="ChangeDestinationFormDTO" name="ChangeDestinationFormDTO"/>
+      <domainobjects xsi:type="icely:CommandEvent" typeName="ChangeDestinationCommand" name="ChangeDestinationCommand"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoDestinationChanged" name="CargoDestinationChanged"/>
+      <domainobjects xsi:type="icely:DTO" typeName="CargoWithHandlingEventsDTO" name="CargoWithHandlingEventsDTO"/>
+      <domainobjects xsi:type="icely:CommandEvent" typeName="AssignCargoToRouteCommand" name="AssignCargoToRouteCommand"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoAssignedToRoute" name="CargoAssignedToRoute"/>
+      <domainobjects xsi:type="icely:CommandEvent" typeName="UpdateEventOfCargoCommand" name="UpdateEventOfCargoCommand"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoIsClaimedEvent" name="CargoIsClaimedEvent"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="NextExpectedHandlingActivity" name="NextExpectedHandlingActivity"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoTransportStatusRecalculated" name="CargoTransportStatusRecalculated"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoLastKnownUpdated" name="CargoLastKnownUpdated"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoCurrentVoyageUpdated" name="CargoCurrentVoyageUpdated"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="CargoIsUnloadedAtDestination" name="CargoIsUnloadedAtDestination"/>
+      <domainobjects xsi:type="icely:DTO" typeName="CargoDetailsDTO" name="CargoDetailsDTO"/>
+      <domainobjects xsi:type="icely:DTO" typeName="TrackingIDDTO" name="TrackingIDDTO"/>
+      <hasResource xsi:type="icely:CollectionResource" name="CargoesResource" readActivity="//@hasApplication.0/@hasAggregate.0/@hasResource.0/@hasActivity.8" otherActivities="//@hasApplication.0/@hasAggregate.0/@hasResource.0/@hasActivity.3 //@hasApplication.0/@hasAggregate.0/@hasResource.0/@hasActivity.4 //@hasApplication.0/@hasAggregate.0/@hasResource.0/@hasActivity.7">
+        <hasActivity xsi:type="icely:Read" name="cargoListView" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.0" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Read" name="requestPossibleRoutesForCargo" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.1" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Read" name="pickNewDestinationView" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.2" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Other" name="changeDestination" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.3" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Other" name="assignCargoToRoute" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.4" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Read" name="cargoDetailsView" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.0/@hasOperation.5" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Read" name="bookingFormView" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.1/@hasOperation.0" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Other" name="bookingNewCargo" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.1/@hasOperation.1" resource="CargoesResource"/>
+        <hasActivity xsi:type="icely:Read" name="trackACargo" trigger="//@hasApplication.0/@hasAggregate.0/@hasProcess.2/@hasOperation.0" resource="CargoesResource"/>
+      </hasResource>
+    </hasAggregate>
+    <hasAggregate name="Voyage" aggregateRoot="Voyage">
+      <domainobjects xsi:type="icely:Entity" typeName="Voyage" name="Voyage" aggregateRoot="true"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="Schedule" name="Schedule"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="CarrierMovement" name="CarrierMovement"/>
+      <hasResource xsi:type="icely:CollectionResource" name="VoyagesResource"/>
+    </hasAggregate>
+    <hasAggregate name="Handling" aggregateRoot="HandlingEvent">
+      <hasProcess name="Handling">
+        <hasOperation xsi:type="icely:CommandOperation" name="registerHandlingEvent">
+          <publish eventType="HandlingEventRegistered"/>
+        </hasOperation>
+        <hasOperation xsi:type="icely:QueryOperation" name="reportFormView"/>
+      </hasProcess>
+      <domainobjects xsi:type="icely:Entity" typeName="HandlingEvent" name="HandlingEvent" aggregateRoot="true"/>
+      <domainobjects xsi:type="icely:ValueObject" typeName="HandlingHistory" name="HandlingHistory"/>
+      <domainobjects xsi:type="icely:Enumeration" typeName="HandlingEventType" name="HandlingEventType"/>
+      <domainobjects xsi:type="icely:CommandEvent" typeName="RegisterHandlingEventCommand" name="RegisterHandlingEventCommand"/>
+      <domainobjects xsi:type="icely:DomainEvent" typeName="HandlingEventRegistered" name="HandlingEventRegistered"/>
+      <domainobjects xsi:type="icely:DTO" typeName="ReportFormDTO" name="ReportFormDTO"/>
+      <hasResource xsi:type="icely:CollectionResource" name="HandlingsResource" readActivity="//@hasApplication.0/@hasAggregate.2/@hasResource.0/@hasActivity.1" otherActivities="//@hasApplication.0/@hasAggregate.2/@hasResource.0/@hasActivity.0">
+        <hasActivity xsi:type="icely:Other" name="registerHandlingEvent" trigger="//@hasApplication.0/@hasAggregate.2/@hasProcess.0/@hasOperation.0" resource="HandlingsResource"/>
+        <hasActivity xsi:type="icely:Read" name="reportFormView" trigger="//@hasApplication.0/@hasAggregate.2/@hasProcess.0/@hasOperation.1" resource="HandlingsResource"/>
+      </hasResource>
+    </hasAggregate>
+    <hasAggregate name="Location" aggregateRoot="Location">
+      <hasProcess name="Routing">
+        <hasOperation xsi:type="icely:QueryOperation" name="listOfShippingLocation"/>
+        <hasOperation xsi:type="icely:QueryOperation" name="findLocation"/>
+      </hasProcess>
+      <domainobjects xsi:type="icely:Entity" typeName="Location" name="Location" aggregateRoot="true"/>
+      <domainobjects xsi:type="icely:DTO" typeName="ShippingLocationsDTO" name="ShippingLocationsDTO"/>
+      <domainobjects xsi:type="icely:DTO" typeName="LocationDetailsDTO" name="LocationDetailsDTO"/>
+      <hasResource xsi:type="icely:CollectionResource" name="LocationsResource" readActivity="//@hasApplication.0/@hasAggregate.3/@hasResource.0/@hasActivity.1">
+        <hasActivity xsi:type="icely:Read" name="listOfShippingLocation" trigger="//@hasApplication.0/@hasAggregate.3/@hasProcess.0/@hasOperation.0" resource="LocationsResource"/>
+        <hasActivity xsi:type="icely:Read" name="findLocation" trigger="//@hasApplication.0/@hasAggregate.3/@hasProcess.0/@hasOperation.1" resource="LocationsResource"/>
+      </hasResource>
+    </hasAggregate>
+    <hasAggregate name="Customer" aggregateRoot="Customer">
+      <domainobjects xsi:type="icely:Entity" typeName="Customer" name="Customer" aggregateRoot="true"/>
+      <hasResource xsi:type="icely:CollectionResource" name="CustomersResource"/>
+    </hasAggregate>
+  </hasApplication>
+  <primitiveTypes typeName="String"/>
+  <primitiveTypes typeName="Integer" type="Integer"/>
+  <primitiveTypes typeName="Float" type="Float"/>
+  <primitiveTypes typeName="Boolean" type="Boolean"/>
+  <primitiveTypes typeName="Null" type="null"/>
+  <primitiveTypes typeName="Date" type="Date"/>
+</icely:Project>
